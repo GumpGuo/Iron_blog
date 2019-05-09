@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" addBOMForNewFiles="with NO BOM">
+    <file url="file://$PROJECT_DIR$/src/main/resources/ApplicationContext.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/jdbc.properties" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/log4j.properties" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/mybatis-cofig.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/spring-mvc.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/json-lib-2.4-jdk15.jar" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/json.jar" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/ueditor-1.1.2.jar" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/../MyBlog/src/main/java/com/guo/controller/BloggerController.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/../MyBlog/src/main/java/com/guo/controller/admin/BlogAdminController.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/../MyBlog/src/main/java/com/guo/controller/admin/BlogTypeAdminController.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/../MyBlog/src/main/java/com/guo/controller/admin/BloggerAdminController.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/../MyBlog/src/main/java/com/guo/controller/admin/CommentAdminController.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/../MyBlog/src/main/java/com/guo/controller/admin/SystemAdminController.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/../MyBlog/src/main/java/com/guo/controller/admin/TagsAdminController.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/../struts2_Day04_02" charset="UTF-8" />
+  </component>
+</project>
