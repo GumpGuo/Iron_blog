@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guo.dao.UserDao">
+    <resultMap id="UserResult" type="User">
+        <id property="id" column="id"/>
+        <result property="userName" column="userName"/>
+        <result property="password" column="password"/>
+        <result property="sign" column="sign"/>
+        <result property="profile" column="profile"/>
+        <result property="imageAddress" column="imageAddress"/>
+        <result property="email" column="email"/>
+    </resultMap>
+
+    <insert id="addUser" parameterType="User" keyProperty="id" useGeneratedKeys="true">
+        INSERT into user values (null,#{userName},#{password},#{sign},#{profile},#{imageAddress},#{email})
+    </insert>
+
+    <delete id="deleteUser" parameterType="User">
+        delete from user where id=#{id}
+    </delete>
+
+    <update id="updateUser" parameterType="User">
+        UPDATE user
+        <set>
+            <if test="null!=userName and ''!=userName">
+                userName = #{userName},
+            </if>
+            <if test="null!=password and ''!=password">
+                password = #{password},
+            </if>
+            <if test="null!=sign">
+                sign = #{sign},
+            </if>
+            <if test="null!=profile">
+                profile = #{profile},
+            </if>
+            <if test="null!=imageAddress">
+                imageAddress = #{imageAddress},
+            </if>
+            <if test="null!=email and ''!=email">
+                email = #{email},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="getById" resultMap="UserResult">
+        select * from user where id = #{id}
+    </select>
+    <select id="getByUserName" resultMap="UserResult">
+        select * from  user where userName = #{userName} order by id ASC LIMIT 1
+    </select>
+
+    <select id="getCount" resultType="Long">
+        select COUNT(id) from user
+    </select>
+
+    <select id="getByEmail" resultMap="UserResult">
+        select * from user where email = #{email} order by id ASC LIMIT 1
+    </select>
+</mapper>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 	博客内容映射 -->
+<mapper namespace="com.guo.dao.LinkDao">
+    <resultMap id="LinkResult" type="Link">
+        <id property="id" column="id"/>
+        <result property="linkName" column="linkName"/>
+        <result property="linkUrl" column="linkUrl"/>
+        <result property="orderNum" column="orderNum"/>
+    </resultMap>
+
+    <insert id="addLink" parameterType="Link">
+        insert into link values(null,#{linkName},#{linkUrl},#{orderNum})
+    </insert>
+
+    <delete id="deleteLink" parameterType="Integer">
+        delete from link where id = #{id}
+    </delete>
+
+    <update id="updateLink" parameterType="Link">
+        update link
+        <set>
+            <if test="linkName!=null and ''!=linkName">
+                linkName=#{linkName},
+            </if>
+
+            <if test="null!=linkUrl and ''!=linkUrl">
+                linkUrl = #{linkUrl},
+            </if>
+
+            <if test="null!=orderNum and ''!=orderNum">
+                orderNum = #{orderNum},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="getById" parameterType="Integer" resultMap="LinkResult">
+        select * from link where id = #{id}
+    </select>
+
+    <select id="getAll" resultMap="LinkResult">
+        select  * from link
+    </select>
+
+    <select id="getTotalCount" resultType="java.lang.Long">
+        select COUNT(id) from link
+    </select>
+</mapper>

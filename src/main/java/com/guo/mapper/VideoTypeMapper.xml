@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guo.dao.VideoTypeDao">
+    <resultMap id="VideoTypeResult" type="VideoType">
+        <id property="id" column="id"/>
+        <result property="typeName" column="typeName"/>
+        <result property="orderNum" column="orderNum"/>
+        <result property="videoCount" column="videoCount"/>
+    </resultMap>
+
+    <insert id="addVideoType" parameterType="VideoType" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO videotype values (NULL,#{typeName},#{orderNum})
+    </insert>
+
+    <delete id="deleteVideoType" parameterType="VideoType">
+        delete from videotype where id=#{id}
+    </delete>
+
+    <update id="updateVideoType" parameterType="VideoType">
+        update videotype
+        <set>
+            <if test="typeName!=null and ''!=typeName">
+                typeName = #{typeName},
+            </if>
+            <if test="orderNum!=null and ''!=orderNum">
+                orderNum =  #{orderNum},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="getById" parameterType="Integer" resultMap="VideoTypeResult">
+        select * from videotype where id = #{id}
+    </select>
+
+    <select id="getCount" resultType="Long">
+        select COUNT(id) from videotype
+    </select>
+
+</mapper>

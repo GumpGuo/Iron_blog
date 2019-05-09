@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 	博客内容映射 -->
+<mapper namespace="com.guo.dao.BlogDao">
+    <resultMap type="Blog" id="BlogResult">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="author" column="author"/>
+        <result property="summary" column="summary"/>
+        <result property="releaseDate" column="releaseDate"/>
+        <result property="clickHit" column="clickHit"/>
+        <result property="content" column="content"/>
+        <result property="keyWord" column="keyWord"/>
+        <association property="blogType" column="type_id" select="com.guo.dao.BlogTypeDao.getById"/>
+    </resultMap>
+
+    <insert id="addBlog" keyProperty="id" parameterType="Blog" useGeneratedKeys="true">
+        INSERT INTO blog VALUES(NULL,#{title},#{author},#{summary},now(),0,#{content},#{keyWord},#{blogType.id})
+    </insert>
+
+
+    <delete id="deleteBlog" parameterType="Integer">
+        delete from blog where id = #{id}
+    </delete>
+
+    <update id="updateBlog" parameterType="Blog">
+        update blog
+        <set>
+            <if test="null!=title and ''!=title">
+                title = #{title},
+            </if>
+            <if test="null!=author and ''!=author">
+                author = #{author},
+            </if>
+
+            <if test="null!=summary and ''!=summary">
+                summary = #{summary},
+            </if>
+
+            <if test="null!=content and ''!=content">
+                content =#{content},
+            </if>
+            <if test="null!=keyWord and ''!=keyWord">
+                keyWord = #{keyWord},
+            </if>
+            <if test="null!=blogType">
+                type_id = #{blogType.id},
+            </if>
+        </set>
+        where id =#{id}
+    </update>
+    <select id="getById" parameterType="Integer" resultMap="BlogResult">
+        select * FROM blog where  id = #{id}
+    </select>
+
+    <select id="getPrevBlog" parameterType="Date" resultMap="BlogResult">
+        select * from  blog where releaseDate &lt;#{releaseDate} ORDER BY releaseDate ASC LIMIT 1
+    </select>
+
+    <select id="getNextBlog" parameterType="Date" resultMap="BlogResult">
+        select * from  blog where releaseDate >#{releaseDate} ORDER BY releaseDate ASC LIMIT 1
+    </select>
+
+    <select id="getAll" resultMap="BlogResult">
+        select * from blog
+    </select>
+
+    <select id="getByTypeId" resultMap="BlogResult" parameterType="Integer">
+        select * from blog where type_id = #{typeId}
+    </select>
+
+    <select id="getTotalCount" resultType="java.lang.Long">
+        select count(id) from blog
+    </select>
+
+    <select id="listByPage" resultMap="BlogResult" parameterType="Map">
+        select * from blog
+        <where>
+            <if test="typeId!=null">
+                and type_id = #{typeId}
+            </if>
+            <if test="null!=author">
+                and author = #{author}
+            </if>
+        </where>
+        <if test="null!=start and null!=pageSize">
+            limit #{start},#{pageSize}
+        </if>
+    </select>
+
+    <update id="addClickHit" parameterType="Blog">
+        update blog set clickHit = clickHit+1 where id=#{id}
+    </update>
+    <!--<select id="getByAuthor" parameterType="String" resultMap="BlogType">-->
+                <!--select type_id count(type_id) from blog-->
+                <!--where author = #{name} order by type_id-->
+    <!--</select>-->
+
+    <select id="listBlog" parameterType="Map" resultMap="BlogResult">
+        select * from blog
+        <where>
+            <if test="null!=id">
+                and id = #{id}
+            </if>
+            <if test="null!=typeId">
+                and type_id = #{typeId}
+            </if>
+            <if test="null!=authorName">
+                and author = #{authorName}
+            </if>
+            <if test="null!=keyWord">
+                and keyWord = #{keyWord}
+            </if>
+        </where>
+        <if test="null!=start and null!=pageSize">
+            limit #{start},#{pageSize}
+        </if>
+    </select>
+</mapper>

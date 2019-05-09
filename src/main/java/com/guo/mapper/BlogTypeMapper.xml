@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 	博客内容映射 -->
+<mapper namespace="com.guo.dao.BlogTypeDao">
+    <resultMap id="BlogTypeResult" type="BlogType">
+        <id property="id" column="id"/>
+        <result property="typeName" column="typeName"/>
+        <result property="orderNum" column="orderNum"/>
+        <result property="blogCount" column="blogCount"/>
+    </resultMap>
+
+    <insert id="addBlogType" parameterType="BlogType" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO blogtype VALUES(null,#{typeName},#{orderNum})
+    </insert>
+
+    <delete id="deleteBlogType" parameterType="BlogType">
+        delete from blogtype where id=#{id}
+    </delete>
+
+    <update id="updateBlogType" parameterType="BlogType">
+        update blogtype
+        <set>
+            <if test="null!=typeName and ''!=typeName">
+                typeName = #{typeName},
+            </if>
+
+            <if test="null!=orderNum and ''!=orderNum">
+                orderNum = #{orderNum},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="getById" parameterType="Integer" resultMap="BlogTypeResult">
+        select * from blogtype where id=#{id}
+    </select>
+
+    <select id="getAll" resultMap="BlogTypeResult">
+        select * from blogtype
+    </select>
+
+    <select id="getBlogTypeData" resultMap="BlogTypeResult">
+        select t2.*,
+        COUNT(t1.id) AS blogCount
+        FROM blog t1
+        RIGHT JOIN blogtype t2 on t1.type_id=t2.id
+        GROUP BY t2.id
+        ORDER BY t2.orderNum
+    </select>
+
+    <select id="getCountById" parameterType="BlogType" resultType="java.lang.Long">
+        select COUNT(t1.id)
+        FROM blog t1
+        RIGHT JOIN blogtype t2 on t1.type_id=t2.id
+        where t1.type_id = #{id}
+    </select>
+
+
+    <select id="getCountByAuthor" parameterType="String" resultMap="BlogTypeResult">
+        select t2.*,
+        COUNT(t1.id) AS blogCount
+        FROM blog t1
+        RIGHT JOIN blogtype t2 on t1.type_id=t2.id
+        where t1.author=#{authorName}
+        GROUP BY t2.id
+    </select>
+</mapper>

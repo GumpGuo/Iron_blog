@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guo.dao.VideoDao">
+    <resultMap id="VideoResult" type="Video">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="timeLength" column="timeLength"/>
+        <association property="videoType" column="type_id" select="com.guo.dao.VideoTypeDao.getById"/>
+    </resultMap>
+
+    <insert id="addVideo" parameterType="Video" keyProperty="id" useGeneratedKeys="true">
+        InSERT INTO video values (null,#{title},#{timeLength},#{videoType.id})
+    </insert>
+
+    <delete id="deleteVideo" parameterType="Video">
+        delete from video where id = #{id}
+    </delete>
+
+    <update id="updateVideo" parameterType="Video">
+        update video
+        <set>
+            <if test="null!=title and ''!=title">
+                title = #{title},
+            </if>
+
+            <if test="null!=timeLength">
+                timeLength = #{timeLength},
+            </if>
+            <if test="null!=videoType">
+                type_id = #{videoType.id},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="getById" parameterType="Integer" resultMap="VideoResult">
+        select * from video where id = #{id}
+    </select>
+
+    <select id="findByVideoType" parameterType="Integer" resultMap="VideoResult">
+       select * from video where type_id = #{type_id}
+    </select>
+
+    <select id="findAll" resultMap="VideoResult">
+        select * from video
+    </select>
+
+    <select id="getCount" resultType="Long">
+        select COUNT(id) from video
+    </select>
+</mapper>
